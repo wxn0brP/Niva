@@ -1,0 +1,9 @@
+{
+    cmd: "bun run build:dev",
+    watch: [
+        "src"
+    ],
+    cmds: {
+        r: "bun run reload"
+    }
+}

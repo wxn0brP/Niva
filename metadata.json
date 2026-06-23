@@ -1,0 +1,18 @@
+{
+    "KPackageStructure": "KWin/Script",
+    "KPlugin": {
+        "Name": "Niva Tiling",
+        "Description": "Niri like tiling.",
+        "Icon": "preferences-system-windows-script-test",
+        "Id": "niva-tiling",
+        "License": "MIT",
+        "Version": "0.0.1",
+        "Authors": [
+            {
+                "Name": "wxn0brP"
+            }
+        ]
+    },
+    "X-Plasma-API": "javascript",
+    "X-Plasma-MainScript": "code/main.js"
+}

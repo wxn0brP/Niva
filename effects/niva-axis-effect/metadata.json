@@ -1,0 +1,18 @@
+{
+    "KPackageStructure": "KWin/Effect",
+    "KPlugin": {
+        "Name": "Niva Axis Animation",
+        "Description": "Animates Niva axis window geometry changes.",
+        "Icon": "preferences-system-windows-effect",
+        "Id": "niva-axis-effect",
+        "License": "MIT",
+        "Version": "0.0.1",
+        "Authors": [
+            {
+                "Name": "wxn0brP"
+            }
+        ]
+    },
+    "X-Plasma-API": "javascript",
+    "X-Plasma-MainScript": "code/main.js"
+}

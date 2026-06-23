@@ -1,0 +1,19 @@
+{
+    "name": "@wxn0brp/niva",
+    "version": "0.0.1",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "scripts/build.sh prod",
+        "build:dev": "scripts/build.sh dev",
+        "install:niva": "scripts/install.sh",
+        "install:effect": "scripts/install-effect.sh",
+        "uninstall:effect": "scripts/uninstall-effect.sh",
+        "load": "scripts/load.sh",
+        "unload": "qdbus6 org.kde.KWin /Scripting org.kde.kwin.Scripting.unloadScript niva-tiling",
+        "reload": "scripts/reload.sh",
+        "reload:effect": "bun run build:dev && bun run install:effect",
+        "status": "qdbus6 org.kde.KWin /Scripting org.kde.kwin.Scripting.isScriptLoaded niva-tiling",
+        "logs": "journalctl --user -f | rg Niva"
+    }
+}
