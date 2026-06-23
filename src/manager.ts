@@ -71,6 +71,11 @@ function syncState() {
     let current = getActiveWin();
 
     if (!current) {
+        if (array.length == 0) {
+            log("no active window and not enough windows for fallback");
+            return;
+        }
+
         current = findFallbackActiveWin();
 
         if (current) {
@@ -161,6 +166,17 @@ function render(index: number, newWidth?: number, forceLayout = false) {
 export function previous() {
     syncState();
 
+    if (array.length === 0) {
+        log("no windows");
+        return;
+    }
+
+    if (array.length === 1) {
+        log("only one window");
+        rerenderActive();
+        return;
+    }
+
     const current = getActiveWin();
     if (!current) {
         log("no current window");
@@ -181,6 +197,17 @@ export function previous() {
 
 export function next() {
     syncState();
+
+    if (array.length === 0) {
+        log("no windows");
+        return;
+    }
+
+    if (array.length === 1) {
+        log("only one window");
+        rerenderActive();
+        return;
+    }
 
     const current = getActiveWin();
     if (!current) {

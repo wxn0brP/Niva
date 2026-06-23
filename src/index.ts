@@ -3,4 +3,4 @@ import { register } from "./shortcuts";
 
 register();
 
-log("loaded 0.0.1");
+log("loaded 0.0.2", true);
