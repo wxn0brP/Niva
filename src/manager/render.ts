@@ -3,6 +3,7 @@ import { syncState } from "./state";
 import { getActiveWin, getActiveWinIndex, getWinName, idToWin } from "./utils";
 import { state } from "./var";
 import { setActive, setGeometry, setMinimized } from "../windows";
+import { getSettings } from "../settings";
 
 export function render(index: number, newWidth?: number, forceLayout = false) {
     const array = state.order;
@@ -27,6 +28,10 @@ export function render(index: number, newWidth?: number, forceLayout = false) {
 
     const sortedWin = array.map(id => idToWin(id));
     const widths = array.map((id, i) => i === index ? newWidth || sortedWin[i].width : sortedWin[i].width);
+    const settings = getSettings();
+    const halfMonitorWidth = state.monitorWidth / 2;
+    const previousActiveIndex = getActiveWinIndex();
+    const previousActive = getActiveWin();
 
     let currentX = 0;
     const rawX = widths.map(width => {
@@ -36,7 +41,40 @@ export function render(index: number, newWidth?: number, forceLayout = false) {
     });
 
     const offset = rawX[index];
-    const x = rawX.map(pos => pos - offset);
+    const activeWidth = widths[index];
+    const prevWidth = index > 0 ? widths[index - 1] : undefined;
+    const isMovingNext = previousActiveIndex < index;
+    const isActiveFullWidth = activeWidth >= state.monitorWidth;
+
+    const isPreviousActiveOnRight =
+        previousActive !== undefined &&
+        previousActive.x >= halfMonitorWidth &&
+        previousActive.x < state.monitorWidth;
+
+    const hasWidePreviousNeighbor =
+        prevWidth !== undefined &&
+        prevWidth > halfMonitorWidth &&
+        prevWidth <= state.monitorWidth + settings.resizeStep;
+
+    let targetX = 0;
+
+    // Default render puts the target window at x=0. The only exception is a
+    // next-step from a direct left neighbor, where keeping part of that
+    // neighbor visible makes the axis feel like it scrolls by about half a
+    // screen instead of hard-snapping each window to the left edge.
+    if (isMovingNext && !isActiveFullWidth && prevWidth !== undefined) {
+        if (isPreviousActiveOnRight) {
+            // The previous focus was already the right-hand pane. Move it to
+            // the left so the new target appears immediately to its right.
+            targetX = prevWidth;
+        } else if (hasWidePreviousNeighbor) {
+            // A wide left neighbor should remain partially visible, while the
+            // new target is aligned to the right side of the monitor.
+            targetX = state.monitorWidth - activeWidth;
+        }
+    }
+
+    const x = rawX.map(pos => pos - offset + targetX);
 
     x.forEach((pos, i) => {
         log("[" + i + "] " + getWinName(array[i]) + " x: " + pos + " width: " + widths[i]);
@@ -81,4 +119,3 @@ export function rerenderActive() {
     log("rerender active " + getWinName(current.internalId));
     render(activeIndex, current.width, true);
 }
-
