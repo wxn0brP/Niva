@@ -38,6 +38,8 @@ declare global {
 
     function print(message: string): void;
 
+    function readConfig(key: string, defaultValue: unknown): unknown;
+
     function registerShortcut(
         id: string,
         description: string,

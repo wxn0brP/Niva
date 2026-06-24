@@ -1,4 +1,5 @@
 import { log } from "./logger";
+import { getSettings } from "./settings";
 import { getWindows, setActive, setGeometry, setMinimized, WindowInfo } from "./windows";
 
 let windows: WindowInfo[] = [];
@@ -66,7 +67,7 @@ function syncState() {
 
     // Add new windows
     const newWindows = windows.filter(w => array.find(id => id === w.internalId) === undefined);
-    array = array.concat(newWindows.map(w => w.internalId));
+    addNewWindows(newWindows.map(w => w.internalId));
 
     let current = getActiveWin();
 
@@ -100,6 +101,24 @@ function syncState() {
             lastActiveIndex = activeIndex;
         }
     }
+}
+
+function addNewWindows(windowIds: string[]) {
+    if (windowIds.length === 0) {
+        return;
+    }
+
+    const settings = getSettings();
+
+    if (settings.insertPolicy === "end" || array.length === 0) {
+        array = array.concat(windowIds);
+        return;
+    }
+
+    const activeIndex = getActiveWinIndex();
+    const anchorIndex = activeIndex >= 0 ? activeIndex : Math.min(lastActiveIndex, array.length - 1);
+
+    array.splice(anchorIndex + 1, 0, ...windowIds);
 }
 
 function getWinName(id: string) {
@@ -303,11 +322,17 @@ export function resizeBy(delta: number) {
         return;
     }
 
-    const newWidth = Math.max(100, current.width + delta);
+    const settings = getSettings();
+    const newWidth = Math.max(settings.minWindowWidth, current.width + delta);
 
     log("resized to: " + newWidth);
     syncState();
     render(array.indexOf(current.internalId), newWidth);
+}
+
+export function resizeByStep(direction: -1 | 1) {
+    const settings = getSettings();
+    resizeBy(settings.resizeStep * direction);
 }
 
 export function moveLeft() {

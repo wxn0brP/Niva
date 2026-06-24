@@ -33,13 +33,13 @@ export function register() {
     });
 
     registerShortcut("Niva Resize Window Smaller", "Niva: Resize focused window smaller", "Meta+Num+7", function () {
-        log("resize -30");
-        manager.resizeBy(-30);
+        log("resize smaller");
+        manager.resizeByStep(-1);
     });
 
     registerShortcut("Niva Resize Window Bigger", "Niva: Resize focused window bigger", "Meta+Num+8", function () {
-        log("resize +30");
-        manager.resizeBy(30);
+        log("resize bigger");
+        manager.resizeByStep(1);
     });
 
     registerShortcut("Niva Debug State", "Niva: Debug state", "Meta+Num+9", function () {

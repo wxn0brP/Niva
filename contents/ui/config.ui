@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>KWin::NivaConfigForm</class>
+ <widget class="QWidget" name="KWin::NivaConfigForm">
+  <property name="windowTitle">
+   <string>Niva Tiling</string>
+  </property>
+  <layout class="QFormLayout" name="formLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="insertPolicyLabel">
+     <property name="text">
+      <string>New windows</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLineEdit" name="kcfg_InsertPolicy">
+     <property name="placeholderText">
+      <string>afterActive or end</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="resizeStepLabel">
+     <property name="text">
+      <string>Resize step</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QSpinBox" name="kcfg_ResizeStep">
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>1000</number>
+     </property>
+     <property name="suffix">
+      <string> px</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="minWidthLabel">
+     <property name="text">
+      <string>Minimum width</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QSpinBox" name="kcfg_MinWindowWidth">
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>10000</number>
+     </property>
+     <property name="suffix">
+      <string> px</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="ignoredClassesLabel">
+     <property name="text">
+      <string>Ignored classes</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QLineEdit" name="kcfg_IgnoredResourceClasses">
+     <property name="placeholderText">
+      <string>Comma separated resourceClass values</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="ignoredNamesLabel">
+     <property name="text">
+      <string>Ignored names</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QLineEdit" name="kcfg_IgnoredResourceNames">
+     <property name="placeholderText">
+      <string>Comma separated resourceName values</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

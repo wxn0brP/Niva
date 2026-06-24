@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+  <kcfgfile name=""/>
+  <group name="">
+    <entry name="InsertPolicy" type="string">
+      <default>afterActive</default>
+    </entry>
+    <entry name="ResizeStep" type="int">
+      <default>30</default>
+    </entry>
+    <entry name="MinWindowWidth" type="int">
+      <default>100</default>
+    </entry>
+    <entry name="IgnoredResourceClasses" type="string">
+      <default></default>
+    </entry>
+    <entry name="IgnoredResourceNames" type="string">
+      <default></default>
+    </entry>
+  </group>
+</kcfg>
