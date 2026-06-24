@@ -2,8 +2,10 @@ import { log } from "./logger";
 import { debugState } from "./manager/debug";
 import { moveLeft, moveRight } from "./manager/move";
 import { next, previous } from "./manager/nav";
-import { resizeByStep, toggleFull } from "./manager/resize";
 import { rerenderActive } from "./manager/render";
+import { resizeByStep, toggleFull } from "./manager/resize";
+import { state } from "./manager/var";
+import { setGeometry } from "./windows";
 
 export function register() {
     registerShortcut("Niva Previous Window", "Niva: Previous window", "Meta+Num+1", function () {
@@ -29,6 +31,15 @@ export function register() {
     registerShortcut("Niva Move Right Window", "Niva: Move right window", "Meta+Num+5", function () {
         log("move right");
         moveRight();
+    });
+
+    registerShortcut("Niva Reset Windows", "Niva: Reset all windows", "Meta+Num+6", function () {
+        log("reset all windows");
+        state.windows.forEach(w => {
+            setGeometry(w.internalId, {
+                x: 0,
+            });
+        })
     });
 
     registerShortcut("Niva Toggle Window Size", "Niva: Toggle focused window size", "Meta+F", function () {
