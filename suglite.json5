@@ -1,5 +1,5 @@
 {
-    cmd: "bun run build:dev",
+    cmd: "./scripts/build.sh dev",
     watch: [
         "src"
     ],
