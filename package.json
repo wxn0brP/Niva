@@ -14,6 +14,6 @@
         "reload": "scripts/reload.sh",
         "reload:effect": "bun run build:dev && bun run install:effect",
         "status": "qdbus6 org.kde.KWin /Scripting org.kde.kwin.Scripting.isScriptLoaded niva-tiling",
-        "logs": "journalctl --user -f | rg Niva"
+        "logs": "journalctl --user -f -o cat | rg Niva"
     }
 }
