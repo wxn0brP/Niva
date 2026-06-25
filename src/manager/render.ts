@@ -5,7 +5,7 @@ import { state } from "./var";
 import { setActive, setGeometry, setMinimized } from "../windows";
 import { getSettings } from "../settings";
 
-export function render(index: number, newWidth?: number, forceLayout = false) {
+export function render(index: number, newWidth?: number, forceLayout = false, targetXOverride?: number) {
     const array = state.order;
 
     const current = state.windows.find(w => w.internalId === array[index]);
@@ -74,6 +74,10 @@ export function render(index: number, newWidth?: number, forceLayout = false) {
         }
     }
 
+    if (targetXOverride !== undefined) {
+        targetX = targetXOverride;
+    }
+
     const x = rawX.map(pos => pos - offset + targetX);
 
     x.forEach((pos, i) => {
@@ -118,4 +122,24 @@ export function rerenderActive() {
 
     log("rerender active " + getWinName(current.internalId));
     render(activeIndex, current.width, true);
+}
+
+export function centerActive() {
+    syncState();
+
+    const current = getActiveWin();
+    if (!current) {
+        log("no current window");
+        return;
+    }
+
+    const activeIndex = getActiveWinIndex();
+    if (activeIndex < 0) {
+        log("active window not found in axis");
+        return;
+    }
+
+    const targetX = (state.monitorWidth - current.width) / 2;
+    log("center active " + getWinName(current.internalId) + " at x: " + targetX);
+    render(activeIndex, current.width, true, targetX);
 }

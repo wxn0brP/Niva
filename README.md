@@ -11,10 +11,11 @@ It keeps normal KWin behavior intact and only appears when you use its shortcuts
 - `Meta+Num+4` - move active window left in the axis
 - `Meta+Num+5` - move active window right in the axis
 - `Meta+Num+6` - reset all windows
-- `Meta+F` -     toggle active window width (half or full screen)
 - `Meta+Num+7` - shrink active window
 - `Meta+Num+8` - grow active window
 - `Meta+Num+9` - log debug state
+- `Meta+F` -     toggle active window width (half or full screen)
+- `Meta+C` -     center active window
 
 ## Prerequisites
 

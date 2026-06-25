@@ -2,7 +2,7 @@ import { log } from "./logger";
 import { debugState } from "./manager/debug";
 import { moveLeft, moveRight } from "./manager/move";
 import { next, previous } from "./manager/nav";
-import { rerenderActive } from "./manager/render";
+import { centerActive, rerenderActive } from "./manager/render";
 import { resizeByStep, toggleFull } from "./manager/resize";
 import { state } from "./manager/var";
 import { setGeometry } from "./windows";
@@ -45,6 +45,11 @@ export function register() {
     registerShortcut("Niva Toggle Window Size", "Niva: Toggle focused window size", "Meta+F", function () {
         log("toggle");
         toggleFull();
+    });
+
+    registerShortcut("Niva Center Active Window", "Niva: Center focused window", "Meta+C", function () {
+        log("center");
+        centerActive();
     });
 
     registerShortcut("Niva Resize Window Smaller", "Niva: Resize focused window smaller", "Meta+Num+7", function () {
