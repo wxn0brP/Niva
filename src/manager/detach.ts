@@ -6,6 +6,7 @@ import { syncState } from "./state";
 import { state } from "./var";
 
 const FULL_WIDTH_RATIO = 0.8;
+const FACTOR = 0.7;
 
 function isDetached(windowId: string) {
     return state.detachedWindowIds.indexOf(windowId) !== -1;
@@ -14,11 +15,11 @@ function isDetached(windowId: string) {
 function getScreenGeometry(window: KWinWindow): KWinRect {
     return window.output?.geometry ||
         workspace.virtualScreenGeometry || {
-            x: 0,
-            y: 0,
-            width: state.monitorWidth,
-            height: state.monitorHeight
-        };
+        x: 0,
+        y: 0,
+        width: state.monitorWidth,
+        height: state.monitorHeight
+    };
 }
 
 function resizeDetachedWindow(window: KWinWindow) {
@@ -32,12 +33,12 @@ function resizeDetachedWindow(window: KWinWindow) {
         return;
     }
 
-    const width = screen.width / 2;
-    const height = screen.height / 2;
+    const width = screen.width * FACTOR;
+    const height = screen.height * FACTOR;
 
     setGeometry(window.internalId, {
-        x: screen.x + (screen.width - width) / 2,
-        y: screen.y + (screen.height - height) / 2,
+        x: screen.x + (screen.width - width) * FACTOR,
+        y: screen.y + (screen.height - height) * FACTOR,
         width,
         height
     });
