@@ -14,10 +14,17 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QLineEdit" name="kcfg_InsertPolicy">
-     <property name="placeholderText">
-      <string>afterActive or end</string>
-     </property>
+    <widget class="QComboBox" name="kcfg_InsertPolicy">
+     <item>
+      <property name="text">
+       <string>afterActive</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>end</string>
+      </property>
+     </item>
     </widget>
    </item>
    <item row="1" column="0">

@@ -4,7 +4,7 @@ import { toggleActiveTiling } from "./manager/detach";
 import { moveLeft, moveRight } from "./manager/move";
 import { next, previous } from "./manager/nav";
 import { centerActive, rerenderActive } from "./manager/render";
-import { resizeByStep, toggleFull } from "./manager/resize";
+import { resizeByStep, toggleWidthProfile } from "./manager/resize";
 import { state } from "./manager/var";
 import { setGeometry } from "./windows";
 
@@ -43,9 +43,9 @@ export function register() {
         })
     });
 
-    registerShortcut("Niva Toggle Window Size", "Niva: Toggle focused window size", "Meta+F", function () {
-        log("toggle");
-        toggleFull();
+    registerShortcut("Niva Toggle Window Size", "Niva: Cycle focused window width", "Meta+F", function () {
+        log("toggle width profile");
+        toggleWidthProfile();
     });
 
     registerShortcut("Niva Center Active Window", "Niva: Center focused window", "Meta+C", function () {
