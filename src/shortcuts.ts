@@ -1,5 +1,6 @@
 import { log } from "./logger";
 import { debugState } from "./manager/debug";
+import { toggleActiveTiling } from "./manager/detach";
 import { moveLeft, moveRight } from "./manager/move";
 import { next, previous } from "./manager/nav";
 import { centerActive, rerenderActive } from "./manager/render";
@@ -50,6 +51,11 @@ export function register() {
     registerShortcut("Niva Center Active Window", "Niva: Center focused window", "Meta+C", function () {
         log("center");
         centerActive();
+    });
+
+    registerShortcut("Niva Toggle Active Window Tiling", "Niva: Toggle focused window tiling", "Meta+Shift+V", function () {
+        log("toggle tiling");
+        toggleActiveTiling();
     });
 
     registerShortcut("Niva Resize Window Smaller", "Niva: Resize focused window smaller", "Meta+Num+7", function () {

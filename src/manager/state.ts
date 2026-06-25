@@ -1,11 +1,13 @@
 import { log } from "../logger";
 import { getSettings } from "../settings";
-import { getWindows, setActive, WindowInfo } from "../windows";
+import { getWindows, listNormalWindowIds, setActive } from "../windows";
 import { getActiveWin, getActiveWinIndex, idToWin } from "./utils";
 import { state } from "./var";
 import { findFallbackActiveWin, updateMonitorFrom } from "./win.util";
 
 export function syncState() {
+    cleanupDetachedWindowIds();
+
     state.windows = getWindows();
 
     // Remove windows that no longer exist
@@ -47,6 +49,11 @@ export function syncState() {
             state.lastActiveIndex = activeIndex;
         }
     }
+}
+
+function cleanupDetachedWindowIds() {
+    const normalWindowIds = listNormalWindowIds();
+    state.detachedWindowIds = state.detachedWindowIds.filter(id => normalWindowIds.indexOf(id) !== -1);
 }
 
 function addNewWindows(windowIds: string[]) {

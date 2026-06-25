@@ -16,6 +16,7 @@ It keeps normal KWin behavior intact and only appears when you use its shortcuts
 - `Meta+Num+9` - log debug state
 - `Meta+F` -     toggle active window width (half or full screen)
 - `Meta+C` -     center active window
+- `Meta+Shift+V` - detach or attach active window to tiling
 
 ## Prerequisites
 

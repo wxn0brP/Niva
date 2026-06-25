@@ -1,5 +1,5 @@
 import type { KWinOutput, KWinRect, KWinWindow } from "./kwin";
-import { log } from "./logger";
+import { state } from "./manager/var";
 import { getSettings } from "./settings";
 
 export interface WindowInfo {
@@ -60,6 +60,10 @@ export function listNormalWindows(): KWinWindow[] {
     return listWindows().filter(isNormalWindow);
 }
 
+export function listNormalWindowIds(): string[] {
+    return listNormalWindows().map(window => window.internalId);
+}
+
 function lower(value: string | undefined): string {
     return String(value || "").toLowerCase();
 }
@@ -74,7 +78,9 @@ export function isConfiguredWindowAllowed(window: KWinWindow): boolean {
 }
 
 export function listTiledWindows(): KWinWindow[] {
-    return listNormalWindows().filter(isConfiguredWindowAllowed);
+    return listNormalWindows()
+        .filter(isConfiguredWindowAllowed)
+        .filter(window => state.detachedWindowIds.indexOf(window.internalId) === -1);
 }
 
 export function rectToObject(rect: KWinRect): KWinRect {
