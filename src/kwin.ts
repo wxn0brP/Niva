@@ -21,6 +21,15 @@ export interface KWinWindow {
 	desktop: unknown;
 	output?: KWinOutput;
 	normalWindow: boolean;
+	popupWindow?: boolean;
+	transient?: boolean;
+	modal?: boolean;
+	dialog?: boolean;
+	dropdownMenu?: boolean;
+	popupMenu?: boolean;
+	comboBox?: boolean;
+	tooltip?: boolean;
+	notification?: boolean;
 	deleted?: boolean;
 	skipTaskbar?: boolean;
 	skipSwitcher?: boolean;
@@ -29,8 +38,13 @@ export interface KWinWindow {
 export interface KWinWorkspace {
 	activeWindow?: KWinWindow;
 	virtualScreenGeometry?: KWinRect;
+	windowActivated?: KWinSignal<(window: KWinWindow | null) => void>;
 
 	windowList(): KWinWindow[];
+}
+
+export interface KWinSignal<T> {
+	connect(callback: T): void;
 }
 
 declare global {

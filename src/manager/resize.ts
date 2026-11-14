@@ -6,27 +6,30 @@ import { getActiveWin, getWinName } from "./utils";
 import { state } from "./var";
 
 const WIDTH_PROFILES = [
-	1 / 3,
 	1 / 2,
-	2 / 3,
 	1,
+	2 / 3,
+	1 / 3,
 ];
-const WIDTH_EPSILON = 1;
+let lastWidthProfileWindowId: string | undefined;
+let widthProfileCounter = 0;
 
 function profileWidth(profile: number, minWindowWidth: number): number {
 	return Math.max(minWindowWidth, Math.round(state.monitorWidth * profile));
 }
 
 function nextWidthProfile(
-	currentWidth: number,
+	windowId: string,
 	minWindowWidth: number,
 ): number {
-	const widths = WIDTH_PROFILES.map(profile =>
-		profileWidth(profile, minWindowWidth),
-	);
-	const nextWidth = widths.find(width => width > currentWidth + WIDTH_EPSILON);
+	if (lastWidthProfileWindowId !== windowId) {
+		lastWidthProfileWindowId = windowId;
+		widthProfileCounter = 0;
+	}
 
-	return nextWidth === undefined ? widths[0] : nextWidth;
+	const profile = WIDTH_PROFILES[widthProfileCounter];
+	widthProfileCounter = (widthProfileCounter + 1) % WIDTH_PROFILES.length;
+	return profileWidth(profile, minWindowWidth);
 }
 
 export function toggleWidthProfile() {
@@ -39,7 +42,10 @@ export function toggleWidthProfile() {
 	}
 
 	const settings = getSettings();
-	const newWidth = nextWidthProfile(current.width, settings.minWindowWidth);
+	const newWidth = nextWidthProfile(
+		current.internalId,
+		settings.minWindowWidth,
+	);
 	log(
 		"toggle width profile " +
 			getWinName(current.internalId) +

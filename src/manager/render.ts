@@ -5,11 +5,17 @@ import { state } from "./var";
 import { setActive, setGeometry, setMinimized } from "../windows";
 import { getSettings } from "../settings";
 
+type PreviousFocus = {
+	index: number;
+	window: ReturnType<typeof getActiveWin>;
+};
+
 export function render(
 	index: number,
 	newWidth?: number,
 	forceLayout = false,
 	targetXOverride?: number,
+	previousFocus?: PreviousFocus,
 ) {
 	const array = state.order;
 
@@ -19,26 +25,16 @@ export function render(
 		return;
 	}
 
-	const isFullyVisibleAndPositioned =
-		!forceLayout &&
-		!newWidth &&
-		current.x + current.width <= state.monitorWidth &&
-		current.x >= 0;
-
-	if (isFullyVisibleAndPositioned) {
-		log("window already fully visible and positioned, just activating");
-		setActive(current.internalId);
-		return;
-	}
-
 	const sortedWin = array.map(id => idToWin(id));
 	const widths = array.map((id, i) =>
 		i === index ? newWidth || sortedWin[i].width : sortedWin[i].width,
 	);
 	const settings = getSettings();
 	const halfMonitorWidth = state.monitorWidth / 2;
-	const previousActiveIndex = getActiveWinIndex();
-	const previousActive = getActiveWin();
+	const previousActiveIndex = previousFocus?.index ?? getActiveWinIndex();
+	const previousActive = previousFocus
+		? previousFocus.window
+		: getActiveWin();
 
 	let currentX = 0;
 	const rawX = widths.map(width => {
@@ -157,6 +153,25 @@ export function centerActive() {
 	}
 
 	const targetX = (state.monitorWidth - current.width) / 2;
-	log("center active " + getWinName(current.internalId) + " at x: " + targetX);
+	log(
+		"center active " + getWinName(current.internalId) + " at x: " + targetX,
+	);
 	render(activeIndex, current.width, true, targetX);
+}
+
+export function revealWindow(windowId: string) {
+	const previousFocus = {
+		index: getActiveWinIndex(),
+		window: getActiveWin(),
+	};
+
+	syncState(windowId);
+
+	const index = state.order.indexOf(windowId);
+	if (index < 0) {
+		log("activated window not found in axis");
+		return;
+	}
+
+	render(index, undefined, false, undefined, previousFocus);
 }

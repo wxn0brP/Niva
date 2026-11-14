@@ -95,6 +95,34 @@
      </property>
     </widget>
    </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="fullWidthClassesLabel">
+     <property name="text">
+      <string>Full width classes</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QLineEdit" name="kcfg_FullWidthResourceClasses">
+     <property name="placeholderText">
+      <string>Comma separated resourceClass values</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="halfWidthClassesLabel">
+     <property name="text">
+      <string>Half width classes</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QLineEdit" name="kcfg_HalfWidthResourceClasses">
+     <property name="placeholderText">
+      <string>Comma separated resourceClass values</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <resources/>

@@ -4,6 +4,6 @@
         "src"
     ],
     cmds: {
-        r: "bun run reload"
+        r: "./scripts/reload.sh"
     }
 }

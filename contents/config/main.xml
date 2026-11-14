@@ -20,5 +20,11 @@
     <entry name="IgnoredResourceNames" type="string">
       <default></default>
     </entry>
+    <entry name="FullWidthResourceClasses" type="string">
+      <default>firefox,vscodium,chromium,google-chrome,google-chrome-stable,chrome,brave,brave-browser,microsoft-edge,msedge,vivaldi-stable,opera,zen,librewolf,waterfox,floorp,qutebrowser,code,code-oss,code-url-handler,sublime_text,zed,kate,kwrite,geany,gedit,mousepad,notepadqq,jetbrains-idea,jetbrains-pycharm,jetbrains-webstorm,jetbrains-goland,jetbrains-clion,jetbrains-rider,jetbrains-rustrover,jetbrains-fleet,idea,pycharm,webstorm,goland,clion,rider,rustrover</default>
+    </entry>
+    <entry name="HalfWidthResourceClasses" type="string">
+      <default>konsole,org.kde.konsole,kitty,alacritty,wezterm,foot,xterm,urxvt,rxvt,gnome-terminal,terminator,tilix,sakura,ptyxis,thunar,org.xfce.thunar,dolphin,org.kde.dolphin,nautilus,org.gnome.nautilus,nemo,caja,pcmanfm,pcmanfm-qt,org.lxqt.pcmanfm-qt,pantheon-files,org.gnome.file-roller,spacefm,doublecmd,doublecmd-qt,krusader</default>
+    </entry>
   </group>
 </kcfg>

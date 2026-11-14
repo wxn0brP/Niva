@@ -2,6 +2,8 @@ import type { KWinOutput, KWinRect, KWinWindow } from "./kwin";
 import { state } from "./manager/var";
 import { getSettings } from "./settings";
 
+let programmaticActiveWindowId: string | undefined;
+
 export interface WindowInfo {
 	window: KWinWindow;
 	caption: string;
@@ -52,6 +54,17 @@ export function getWindow(windowId: string): KWinWindow | undefined {
 export function isNormalWindow(window: KWinWindow): boolean {
 	return (
 		window.normalWindow === true &&
+		window.frameGeometry.width >= 400 &&
+		window.frameGeometry.height >= 200 &&
+		window.popupWindow !== true &&
+		window.transient !== true &&
+		window.modal !== true &&
+		window.dialog !== true &&
+		window.dropdownMenu !== true &&
+		window.popupMenu !== true &&
+		window.comboBox !== true &&
+		window.tooltip !== true &&
+		window.notification !== true &&
 		window.deleted !== true &&
 		window.skipTaskbar !== true &&
 		window.skipSwitcher !== true
@@ -78,6 +91,72 @@ export function isConfiguredWindowAllowed(window: KWinWindow): boolean {
 	return (
 		settings.ignoredResourceClasses.indexOf(resourceClass) === -1 &&
 		settings.ignoredResourceNames.indexOf(resourceName) === -1
+	);
+}
+
+export function isFullWidthWindow(window: KWinWindow): boolean {
+	const resourceClass = lower(window.resourceClass);
+	const configuredClasses = getSettings().fullWidthResourceClasses;
+	const fullWidthClassMarkers = [
+		"firefox",
+		"chromium",
+		"chrome",
+		"brave",
+		"edge",
+		"vivaldi",
+		"opera",
+		"vscodium",
+		"code-oss",
+		"code-url-handler",
+		"jetbrains",
+		"intellij",
+		"pycharm",
+		"webstorm",
+		"goland",
+		"clion",
+		"rustrover",
+		"sublime",
+		"zed",
+	];
+
+	return (
+		configuredClasses.indexOf(resourceClass) !== -1 ||
+		fullWidthClassMarkers.some(marker => resourceClass.includes(marker))
+	);
+}
+
+export function isHalfWidthWindow(window: KWinWindow): boolean {
+	const resourceClass = lower(window.resourceClass);
+	const configuredClasses = getSettings().halfWidthResourceClasses;
+	const terminalClassMarkers = [
+		"terminal",
+		"konsole",
+		"kitty",
+		"alacritty",
+		"wezterm",
+		"foot",
+		"xterm",
+		"urxvt",
+		"rxvt",
+		"tilix",
+		"terminator",
+		"sakura",
+		"ptyxis",
+		"thunar",
+		"dolphin",
+		"nautilus",
+		"nemo",
+		"caja",
+		"pcmanfm",
+		"pantheon-files",
+		"spacefm",
+		"doublecmd",
+		"krusader",
+	];
+
+	return (
+		configuredClasses.indexOf(resourceClass) !== -1 ||
+		terminalClassMarkers.some(marker => resourceClass.includes(marker))
 	);
 }
 
@@ -171,5 +250,24 @@ export function setMinimized(windowId: string, minimized: boolean) {
 
 export function setActive(windowId: string) {
 	const window = getWindow(windowId);
+	if (!window) {
+		return;
+	}
+
+	if (workspace.activeWindow?.internalId === windowId) {
+		return;
+	}
+
+	programmaticActiveWindowId = windowId;
 	workspace.activeWindow = window;
+}
+
+export function consumeProgrammaticActivation(windowId?: string) {
+	if (programmaticActiveWindowId === undefined) {
+		return false;
+	}
+
+	const isProgrammatic = programmaticActiveWindowId === windowId;
+	programmaticActiveWindowId = undefined;
+	return isProgrammatic;
 }

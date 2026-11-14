@@ -30,6 +30,7 @@ interface KWinSignal<T extends KWinSignalCallback> {
 }
 
 interface KWinEffects {
+	addRepaintFull?: () => void;
 	stackingOrder?: KWinEffectWindow[] | Record<string, unknown>;
 	windowAdded?: KWinSignal<(window: KWinEffectWindow) => void>;
 	windowFrameGeometryChanged?: KWinSignal<
@@ -39,6 +40,12 @@ interface KWinEffects {
 		(window: KWinEffectWindow, oldGeometry: KWinRect) => void
 	>;
 	animationsSupported?: boolean;
+}
+
+interface KWinScriptedEffect {
+	animationEnded?: KWinSignal<
+		(window: KWinEffectWindow, animationId: number) => void
+	>;
 }
 
 interface KWinAnimationPoint {
@@ -60,6 +67,7 @@ interface KWinAnimationOptions {
 }
 
 declare const effects: KWinEffects;
+declare const effect: KWinScriptedEffect;
 declare const Effect: {
 	Translation: number;
 	Size: number;
@@ -412,5 +420,21 @@ if (!hasGlobalGeometrySignal && effects.windowAdded) {
 if (!hasGlobalGeometrySignal) {
 	connectExistingWindows();
 }
+
+effect.animationEnded?.connect((window, animationId) => {
+	const index = activeAnimations.findIndex(item => item.window === window);
+	if (index === -1) {
+		return;
+	}
+
+	const animations = activeAnimations[index];
+	animations.ids = animations.ids.filter(id => id !== animationId);
+	if (animations.ids.length > 0) {
+		return;
+	}
+
+	activeAnimations.splice(index, 1);
+	effects.addRepaintFull?.();
+});
 
 log("loaded");
